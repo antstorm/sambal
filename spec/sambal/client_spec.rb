@@ -107,31 +107,31 @@ describe Sambal::Client do
   end
 
   it "should get files from an smb server" do
-    @sambal_client.get(testfile, "/tmp/sambal_spec_testfile.txt").should be_successful
-    File.exists?("/tmp/sambal_spec_testfile.txt").should == true
-    File.size("/tmp/sambal_spec_testfile.txt").should == @sambal_client.ls[testfile][:size].to_i
+    @sambal_client.get(testfile, "./tmp/sambal_spec_testfile.txt").should be_successful
+    File.exists?("./tmp/sambal_spec_testfile.txt").should == true
+    File.size("./tmp/sambal_spec_testfile.txt").should == @sambal_client.ls[testfile][:size].to_i
   end
 
   it "should get files in a dir with spaces in it's name from an smb server" do
-    @sambal_client.get(test_spaces_in_name_path, "/tmp/sambal_this_file_was_in_dir_with_spaces.txt").should be_successful
-    File.exists?("/tmp/sambal_this_file_was_in_dir_with_spaces.txt").should == true
+    @sambal_client.get(test_spaces_in_name_path, "./tmp/sambal_this_file_was_in_dir_with_spaces.txt").should be_successful
+    File.exists?("./tmp/sambal_this_file_was_in_dir_with_spaces.txt").should == true
     @sambal_client.cd(test_directory_with_space_in_name)
-    File.size("/tmp/sambal_this_file_was_in_dir_with_spaces.txt").should == @sambal_client.ls[test_file_in_directory_with_space_in_name][:size].to_i
+    File.size("./tmp/sambal_this_file_was_in_dir_with_spaces.txt").should == @sambal_client.ls[test_file_in_directory_with_space_in_name][:size].to_i
   end
 
   it "should get files in a subdirectory while in a higher level directory from an smb server" do
-    @sambal_client.get(testfile_sub_path, "/tmp/sambal_spec_testfile_sub.txt").should be_successful
-    File.exists?("/tmp/sambal_spec_testfile_sub.txt").should == true
+    @sambal_client.get(testfile_sub_path, "./tmp/sambal_spec_testfile_sub.txt").should be_successful
+    File.exists?("./tmp/sambal_spec_testfile_sub.txt").should == true
     @sambal_client.cd(sub_directory_path)
-    File.size("/tmp/sambal_spec_testfile_sub.txt").should == @sambal_client.ls[testfile_sub][:size].to_i
+    File.size("./tmp/sambal_spec_testfile_sub.txt").should == @sambal_client.ls[testfile_sub][:size].to_i
   end
 
   it "should not be successful when getting a file from an smb server fails" do
-    result = @sambal_client.get("non_existant_file.txt", "/tmp/sambal_spec_non_existant_file.txt")
+    result = @sambal_client.get("non_existant_file.txt", "./tmp/sambal_spec_non_existant_file.txt")
     result.should_not be_successful
     result.message.should match /^NT_.*$/
     result.message.split("\n").should have(1).line
-    File.exists?("/tmp/sambal_spec_non_existant_file.txt").should == false
+    File.exists?("./tmp/sambal_spec_non_existant_file.txt").should == false
   end
 
   it "should upload files to an smb server" do
